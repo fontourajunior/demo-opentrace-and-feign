@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775/udp"
+      - "16686:16686"
+  springboot-docker-compose-app-container:
+    image: springboot-docker-compose-app:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - jaeger
+    volumes:
+      - /data/springboot-docker-compose-app
+    ports:
+      - "8080:8080"
